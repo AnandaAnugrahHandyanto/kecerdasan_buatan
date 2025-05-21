@@ -4,7 +4,7 @@ import MarkdownIt from 'markdown-it';
 import { maybeShowApiKeyBanner } from './gemini-api-banner';
 import './style.css';
 
-let API_KEY = 'AIzaSyCXcmTzMp42G9Sl21qTVj15L8olGqFlUbw';
+let API_KEY = 'AIzaSyC9_12RrRvL_7i-t6NEbHd0qJXYVZsFb-g';
 
 let form = document.querySelector('form');
 let promptInput = document.querySelector('input[name="prompt"]');
