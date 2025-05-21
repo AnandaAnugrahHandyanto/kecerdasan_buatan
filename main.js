@@ -12,7 +12,7 @@ let output = document.querySelector('.output');
 
 const genAI = new GoogleGenerativeAI(API_KEY);
 const model = genAI.getGenerativeModel({
-  model: "gemini-pro",
+  model: "gemini-flash",
   safetySettings: [
     {
       category: HarmCategory.HARM_CATEGORY_HARASSMENT,
