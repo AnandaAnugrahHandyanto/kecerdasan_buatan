@@ -3,10 +3,7 @@ import MarkdownIt from "markdown-it";
 import { maybeShowApiKeyBanner } from "./gemini-api-banner";
 import "./style.css";
 
-// 🔥 FILL THIS OUT FIRST! 🔥
-// 🔥 GET YOUR GEMINI API KEY AT 🔥
-// 🔥 https://g.co/ai/idxGetGeminiKey 🔥
-let API_KEY = 'AIzaSyCu7zLCoql6FfkMghBOGRgit1uXkHsCM1A';
+let API_KEY = 'AIzaSyC9_12RrRvL_7i-t6NEbHd0qJXYVZsFb-g';
 
 let form = document.querySelector("form");
 let promptInput = document.querySelector("input[name='prompt']");
