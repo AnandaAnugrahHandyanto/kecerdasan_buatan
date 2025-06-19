@@ -1,42 +1,47 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Baking with the Gemini API</title>
+  <title>Vynix AI</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 </head>
-
 <body>
+  <header>
+    <h1>Vynix AI</h1>
+    <div class="header-controls">
+      <label class="dark-toggle">
+        🌙 <input type="checkbox" id="darkModeToggle" />
+      </label>
+    </div>
+  </header>
+
   <main>
-    <h1>Elysium AI by NandPrjkt</h1>
-    <form>
-      <!-- <div class="image-picker">
-        <label class="image-choice">
-          <input type="radio" checked name="chosen-image" value="/baked_goods_1.jpg">
-          <img src="/baked_goods_1.jpg">
-        </label>
-        <label class="image-choice">
-          <input type="radio" name="chosen-image" value="/baked_goods_2.jpg">
-          <img src="/baked_goods_2.jpg">
-        </label>
-        <label class="image-choice">
-          <input type="radio" name="chosen-image" value="/baked_goods_3.jpg">
-          <img src="/baked_goods_3.jpg">
-        </label>
-      </div> -->
-      <div class="prompt-box">
-        <label>
-          <input name="prompt" placeholder="Enter instructions here" type="text"
-            value="Hai, Saya AI yang di kembangkan oleh NandPrjkt">
-        </label>
-        <button type="submit">Jalanin</button>
-      </div>
-    </form>
-    <p class="output">(Hasilnya akan muncul di sini)</p>
+    <p class="output"><a href="https://t.me/nathannn77">https://t.me/nathannn77</a></p>
+    <div id="chat-history"></div>
   </main>
 
-  <script type="module" src="/main.js"></script>
-</body>
+  <!-- Avatar tetap -->
+  <div id="fixed-avatar"></div>
 
+  <!-- Form tetap di bawah -->
+  <form id="imageForm">
+    <div class="prompt-box">
+      <label>
+        <input id="promptInput" name="prompt" placeholder="Masukkan perintah" type="text" required />
+      </label>
+      <input type="file" id="imageInput" accept="image/*" />
+      <button type="submit">Jalanin</button>
+    </div>
+  </form>
+
+  <script type="module" src="main.js"></script>
+  
+<!-- highlight.js -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+
+</body>
 </html>
