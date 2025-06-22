@@ -20,13 +20,34 @@ Semua perubahan penting pada proyek ini didokumentasikan di sini.
 - Tambah **ekspor chat** ke `.md`, `.txt`, dan `.json`
 - Tambah **tombol Edit** dan **Dengarkan** di setiap balasan AI
 - Tambah **dropdown tema UI** (dark, minimal, cyberpunk, dll)
+- Dibuat struktur `index.html`:
+  - `#greeting-screen` untuk tampilan awal
+  - `#chat-screen` untuk sesi chat aktif
+  - Input prompt, tombol 🎤, 📎, dan kirim
+- Sistem pemisahan antara **Greeting** dan **Chat History**
+- Tombol ⚙️ awal (menggunakan `<details>`) diganti menjadi **sidebar geser dari kanan**
+- Sidebar berisi:
+  - Max Token
+  - Tambah/Hapus Sesi
+  - Export/Import JSON
+  - Simpan Chat TXT
+- Dilengkapi animasi `transition: right 0.3s ease`
 
 ### 🛠️ Perbaikan Bug
 - Memindahkan logika tombol salin ke dalam blok AI response untuk mencegah error `aiDiv is not defined`.
 - Menghilangkan overflow scroll horizontal pada bubble user & AI.
 - Penyesuaian input & tampilan agar tetap nyaman digunakan di perangkat mobile.
+- Greeting otomatis hilang saat:
+  - Mengirim pesan
+  - Memilih suggestion chip
+  - Mulai mengetik
+- CSS diperbaiki untuk mencegah scrollbar tidak perlu
+- Setelah kirim chat:
+  - Input prompt otomatis `focus()`
+  - Scroll otomatis ke bawah
 
 ### 🎨 Perbaikan Tampilan
+- Merubah total tampilan desain UI awal.
 - Perbaikan desain UI bubble chat, warna, padding, dan radius.
 - Penyesuaian tema mode gelap agar semua elemen tetap terbaca dengan nyaman.
 - Tampilan blok kode lebih modern: latar gelap, label atas, dan tombol salin yang interaktif.
@@ -48,26 +69,32 @@ feat: add working Telegram bot using Gemini API
   - `dotenv`
 
 ## 🎯 Rencana Selanjutnya
-### 1. ✨ Menyimpan Riwayat Percakapan per Pengguna (Telegram)
-- Tujuan: agar tiap pengguna bisa lanjutkan percakapan mereka
-- Teknologi: Gunakan JSON per `chatId`, atau database ringan (lowdb)
+### 📌 1. Mode Chat Multi-Model
+- Pilihan GPT, Gemini, Claude, dsb.
 
-### 2. 🧠 Dukungan Perintah Khusus
-- Contoh: `/help`, `/clear`, `/model`, `/prompt`
-- Bisa pakai regex atau perintah TelegramBotAPI
+### 📌 2. Riwayat Chat Global
+- Nama otomatis per sesi
+- Daftar semua sesi tersimpan
 
-### 3. 🌐 Webhook Support
-- Tujuan: Bisa deploy di server seperti Vercel/Render dengan webhook
-- Alternatif polling
+### 📌 3. Penyempurnaan UI
+- Mode minimal
+- Sidebar geser di mobile
+- Notifikasi kecil (toaster)
 
-### 4. 🔄 Integrasi Langchain atau RAG
-- Bisa tanya berdasarkan dokumen lokal (PDF/Markdown)
-- Butuh middleware tambahan
+### 📌 4. Speech Recognition Canggih
+- Teks interim saat bicara
+- Dukungan multi-bahasa
 
-### 5. 🗣️ Mode Suara (Text-to-Speech Response)
-- Bot kirim voice message bukan teks saja
-- Pakai `gTTS` atau API seperti Google Cloud Text-to-Speech
----
+### 📌 5. Dukungan Gambar & Visual
+- Viewer gambar hasil AI
+- Pratinjau visual di chat
+
+### 📌 6. Export HTML / Markdown
+- Simpan sesi sebagai `.html` atau `.md`
+
+### 📌 7. Mode Offline / Cache
+- Simpan prompt favorit
+- PWA mode untuk offline
 
 ## 🧑‍💻 Dibuat oleh
 Ananda A. Handyanto — 2025

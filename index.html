@@ -6,75 +6,111 @@
   <title>Vynix AI</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 </head>
 <body>
-  <header>
-    <div style="text-align:center; margin-top: 10px;">
-  <button id="exportBtn">💾 Export JSON</button>
-  <input type="file" id="importInput" accept=".json" style="display:none;" />
-  <button id="importBtn">📂 Import JSON</button>
-</div>
-    <h1>Vynix AI</h1>
-  <div class="header-controls">
-    <select id="themeSelector">
-      <option value="light">🌞 Default</option>
-      <option value="dark">🌚 Gelap</option>
-      <option value="cyberpunk">🟣 Cyberpunk</option>
-      <option value="minimal">🧼 Minimalis</option>
-    </select>
-  </div>
-    <div>
-      <details id="settingsPanel">
-  <summary>⚙️ Pengaturan</summary>
-  <label>
-    Max Token:
-    <input type="number" id="maxTokens" value="100" min="10" max="2048" />
-  </label>
-</details>
-    </div>
-  </header>
+  <div id="app-container">
+    <header class="app-header">
+      <div class="header-left">
+        <h1>Vynix AI</h1>
+      </div>
+      <div class="theme-selector-wrapper">
+        <select id="themeSelector">
+          <option value="light">🌞 Default</option>
+          <option value="dark">🌚 Gelap</option>
+          <option value="cyberpunk">🟣 Cyberpunk</option>
+          <option value="minimal">🧼 Minimalis</option>
+        </select>
+        <button id="openSettingsBtn" class="settings-button">⚙️ Pengaturan</button>
+      </div>
+    </header>
 
-  <div id="session-controls">
-  <input type="text" id="sessionName" placeholder="Nama Sesi" />
-  <button id="newSessionBtn">➕ Sesi Baru</button>
-  <select id="sessionSelector"></select>
-  <button id="deleteSessionBtn">🗑️ Hapus Sesi</button>
+    <main class="chat-main">
+      <div id="greeting-screen" class="active">
+        <h2>Vynix AI</h2>
+        <div class="suggestion-chips">
+          <button>Beri aku tips belajar</button>
+          <button>Beri aku nasihat</button>
+          <button>Jelaskan sesuatu</button>
+        </div>
+      </div>
 
-</div>
+      <div id="chat-screen">
+        <div id="chat-history"></div>
+      </div>
+    </main>
 
-  <main>
-    <p class="output"><a href="https://t.me/DeanPerformer">Ngetest</a></p>
-    <button id="saveChatBtn">💾 Simpan Chat</button>
-    <div id="chat-history"></div>
-  </main>
-
-  <!-- Avatar tetap -->
-  <div id="fixed-avatar"></div>
-<select id="promptTemplate">
-  <option value="">-- Pilih Gaya Prompt --</option>
-  <option value="Tolong jelaskan seperti saya anak SD: ">🧒 Penjelasan Anak SD</option>
-  <option value="Buatkan puisi tentang: ">📝 Puisi</option>
-  <option value="Tuliskan sebagai developer note: ">💻 Catatan Developer</option>
-</select>
-
-  <!-- Form tetap di bawah -->
-  <form id="imageForm">
-    <div class="prompt-box">
-      <label>
+    <footer class="chat-footer">
+      <select id="promptTemplate" class="prompt-template-select">
+        <option value="">-- Pilih Gaya Prompt --</option>
+        <option value="Tolong jelaskan seperti saya anak SD: ">🧒 Penjelasan Anak SD</option>
+        <option value="Buatkan puisi tentang: ">📝 Puisi</option>
+        <option value="Tuliskan sebagai developer note: ">💻 Catatan Developer</option>
+      </select>
+      <form id="imageForm" class="prompt-form">
+        <button type="button" id="uploadBtn" class="icon-button" title="Lampirkan Gambar">📎</button>
+        <input type="file" id="imageInput" accept="image/*" hidden />
         <input id="promptInput" name="prompt" placeholder="Masukkan perintah" type="text" required />
-      </label>
-      <input type="file" id="imageInput" accept="image/*" />
-      <button type="submit">Jalanin</button>
-      <button type="button" id="micBtn">🎤</button>
+        <button type="button" id="micBtn" class="icon-button" title="Mikrofon">🎤</button>
+        <button type="submit" class="icon-button send-button" title="Kirim Pesan">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </form>
+      <div class="disclaimer">Vynix AI &copy; 2025</div>
+    </footer>
+  </div>
+
+  <div id="settingsPanel" class="settings-sidebar">
+  <div class="settings-header">
+    <strong>Pengaturan</strong>
+    <button id="closeSettingsBtn">✖️</button>
+  </div>
+
+  <!-- ✅ Tambahkan kembali isi ini -->
+  <div class="settings-content">
+    <label>
+      Max Token:
+      <input type="number" id="maxTokens" value="1000" min="10" max="2048" />
+    </label>
+    <div class="session-controls">
+      <input type="text" id="sessionName" placeholder="Nama Sesi Baru" />
+      <button id="newSessionBtn">➕ Sesi Baru</button>
+      <select id="sessionSelector"></select>
+      <button id="deleteSessionBtn">🗑️ Hapus Sesi</button>
     </div>
-  </form>
+    <div class="export-import-controls">
+      <button id="exportBtn">💾 Export JSON</button>
+      <input type="file" id="importInput" accept=".json" style="display:none;" />
+      <button id="importBtn">📂 Import JSON</button>
+      <button id="saveChatBtn">💾 Simpan Chat (TXT)</button>
+    </div>
+  </div>
+</div>
 
   <script type="module" src="main.js"></script>
-  
-<!-- highlight.js -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script>hljs.highlightAll();</script>
+  <script>
+    document.getElementById('uploadBtn').addEventListener('click', function () {
+      document.getElementById('imageInput').click();
+    });
 
+    const toggleBtn = document.getElementById("openSettingsBtn");
+    const closeBtn = document.getElementById("closeSettingsBtn");
+    const settingsPanel = document.getElementById("settingsPanel");
+
+    toggleBtn.addEventListener("click", () => {
+      settingsPanel.classList.toggle("active");
+    });
+
+    closeBtn.addEventListener("click", () => {
+      settingsPanel.classList.remove("active");
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!settingsPanel.contains(e.target) && !toggleBtn.contains(e.target)) {
+        settingsPanel.classList.remove("active");
+      }
+    });
+  </script>
 </body>
 </html>
