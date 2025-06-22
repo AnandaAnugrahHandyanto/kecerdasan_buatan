@@ -1,3 +1,9 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 :root {
   --accent-color: #1A73E8;
   --background-light: #F0F2F5;
@@ -950,4 +956,58 @@ body.theme-minimal .copy-btn {
   font-size: 20px;
   cursor: pointer;
   color: #666;
+}
+
+@media (min-width: 1200px) {
+  #app-container {
+    max-width: 1100px;
+  }
+
+  .prompt-template-select,
+  .prompt-form {
+    max-width: 900px;
+  }
+}
+
+@media (max-width: 360px) {
+  .prompt-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .prompt-form input[type="text"] {
+    width: 100%;
+  }
+
+  .icon-button {
+    align-self: flex-end;
+  }
+
+  .chat {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .chat .edit-btn,
+  .chat .speak-btn {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+
+  .copy-btn {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .settings-sidebar {
+    width: 100%;
+    right: -100%;
+  }
+
+  .settings-sidebar.active {
+    right: 0;
+  }
 }
