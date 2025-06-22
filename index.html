@@ -9,21 +9,53 @@
 </head>
 <body>
   <header>
+    <div style="text-align:center; margin-top: 10px;">
+  <button id="exportBtn">💾 Export JSON</button>
+  <input type="file" id="importInput" accept=".json" style="display:none;" />
+  <button id="importBtn">📂 Import JSON</button>
+</div>
     <h1>Vynix AI</h1>
-    <div class="header-controls">
-      <label class="dark-toggle">
-        🌙 <input type="checkbox" id="darkModeToggle" />
-      </label>
+  <div class="header-controls">
+    <select id="themeSelector">
+      <option value="light">🌞 Default</option>
+      <option value="dark">🌚 Gelap</option>
+      <option value="cyberpunk">🟣 Cyberpunk</option>
+      <option value="minimal">🧼 Minimalis</option>
+    </select>
+  </div>
+    <div>
+      <details id="settingsPanel">
+  <summary>⚙️ Pengaturan</summary>
+  <label>
+    Max Token:
+    <input type="number" id="maxTokens" value="100" min="10" max="2048" />
+  </label>
+</details>
     </div>
   </header>
 
+  <div id="session-controls">
+  <input type="text" id="sessionName" placeholder="Nama Sesi" />
+  <button id="newSessionBtn">➕ Sesi Baru</button>
+  <select id="sessionSelector"></select>
+  <button id="deleteSessionBtn">🗑️ Hapus Sesi</button>
+
+</div>
+
   <main>
     <p class="output"><a href="https://t.me/DeanPerformer">Ngetest</a></p>
+    <button id="saveChatBtn">💾 Simpan Chat</button>
     <div id="chat-history"></div>
   </main>
 
   <!-- Avatar tetap -->
   <div id="fixed-avatar"></div>
+<select id="promptTemplate">
+  <option value="">-- Pilih Gaya Prompt --</option>
+  <option value="Tolong jelaskan seperti saya anak SD: ">🧒 Penjelasan Anak SD</option>
+  <option value="Buatkan puisi tentang: ">📝 Puisi</option>
+  <option value="Tuliskan sebagai developer note: ">💻 Catatan Developer</option>
+</select>
 
   <!-- Form tetap di bawah -->
   <form id="imageForm">
@@ -33,6 +65,7 @@
       </label>
       <input type="file" id="imageInput" accept="image/*" />
       <button type="submit">Jalanin</button>
+      <button type="button" id="micBtn">🎤</button>
     </div>
   </form>
 

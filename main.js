@@ -9,7 +9,6 @@ let form = document.querySelector("form");
 let promptInput = document.querySelector("input[name='prompt']");
 let imageInput = document.getElementById("imageInput");
 let output = document.querySelector(".output");
-
 let chatHistory = document.getElementById("chat-history");
 let conversationHistory = [];
 
@@ -34,16 +33,24 @@ function scrollToBottom() {
 
 promptInput.addEventListener("input", scrollToBottom);
 
-// Dark mode toggle
-const toggle = document.getElementById("darkModeToggle");
-if (localStorage.getItem("dark-mode") === "true") {
-  document.body.classList.add("dark");
-  toggle.checked = true;
+const themeSelector = document.getElementById("themeSelector");
+function applyTheme(theme) {
+  document.body.classList.remove("dark", "theme-cyberpunk", "theme-minimal");
+  if (theme === "dark") {
+    document.body.classList.add("dark");
+  } else if (theme === "cyberpunk") {
+    document.body.classList.add("theme-cyberpunk");
+  } else if (theme === "minimal") {
+    document.body.classList.add("theme-minimal");
+  }
+  localStorage.setItem("selected-theme", theme);
 }
-toggle.addEventListener("change", () => {
-  document.body.classList.toggle("dark");
-  localStorage.setItem("dark-mode", toggle.checked);
+themeSelector.addEventListener("change", () => {
+  applyTheme(themeSelector.value);
 });
+const savedTheme = localStorage.getItem("selected-theme") || "light";
+themeSelector.value = savedTheme;
+applyTheme(savedTheme);
 
 const genAI = new GoogleGenerativeAI(API_KEY);
 const model = genAI.getGenerativeModel({
@@ -59,10 +66,9 @@ const model = genAI.getGenerativeModel({
 const chat = model.startChat({
   history: [],
   generationConfig: {
-    maxOutputTokens: 100
+    maxOutputTokens: parseInt(document.getElementById("maxTokens").value || "100"),
   }
 });
-
 
 form.onsubmit = async (ev) => {
   ev.preventDefault();
@@ -71,7 +77,7 @@ form.onsubmit = async (ev) => {
 
   const userDiv = document.createElement("div");
   userDiv.className = "chat user";
-  userDiv.innerText = prompt;
+  userDiv.innerHTML = `<div>${prompt}</div><small>${getTimeStamp()}</small>`;
   chatHistory.appendChild(userDiv);
 
   const typingDiv = document.createElement("div");
@@ -82,7 +88,6 @@ form.onsubmit = async (ev) => {
 
   const parts = [{ text: prompt }];
 
-  // Tambahkan gambar jika ada
   if (imageInput.files.length > 0) {
     const file = imageInput.files[0];
     const base64 = await toBase64(file);
@@ -92,7 +97,6 @@ form.onsubmit = async (ev) => {
         data: base64.split(',')[1],
       },
     });
-
     const imgPreview = document.createElement("img");
     imgPreview.src = base64;
     imgPreview.className = "image-preview";
@@ -104,23 +108,48 @@ form.onsubmit = async (ev) => {
   try {
     const result = await model.generateContent({ contents: conversationHistory });
     const aiText = result.response.text();
-
     chatHistory.removeChild(typingDiv);
 
     const aiDiv = document.createElement("div");
     aiDiv.className = "chat ai fade-in";
-    aiDiv.innerHTML = md.render(aiText);
+
+    const contentDiv = document.createElement("div");
+    contentDiv.className = "ai-content";
+    contentDiv.innerHTML = md.render(aiText);
+    aiDiv.appendChild(contentDiv);
+
+    const timeStamp = document.createElement("small");
+    timeStamp.textContent = getTimeStamp();
+    aiDiv.appendChild(timeStamp);
+
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "Edit";
+    editBtn.className = "edit-btn";
+    editBtn.onclick = () => {
+      const plainText = contentDiv.innerText;
+      const newText = prompt("Edit Balasan AI:", plainText);
+      if (newText !== null) {
+        contentDiv.innerHTML = md.render(newText);
+        hljs.highlightAll();
+      }
+    };
+    aiDiv.appendChild(editBtn);
+
+    const speakBtn = document.createElement("button");
+    speakBtn.textContent = "🔊 Dengarkan";
+    speakBtn.className = "speak-btn";
+    speakBtn.onclick = () => {
+      const utterance = new SpeechSynthesisUtterance(contentDiv.innerText);
+      speechSynthesis.speak(utterance);
+    };
+    aiDiv.appendChild(speakBtn);
+
     chatHistory.appendChild(aiDiv);
-hljs.highlightAll(); // ini WAJIB agar syntax highlight aktif
-scrollToBottom();
+    hljs.highlightAll();
+    scrollToBottom();
 
-
-    hljs.highlightAll(); // render ulang block code yang baru dimasukkan ke DOM
-
-    // ✅ Tambahkan tombol salin dan label bahasa
     aiDiv.querySelectorAll('pre code').forEach(block => {
       const lang = block.className.split('-')[1] || 'text';
-
       const wrapper = document.createElement('div');
       wrapper.className = 'code-wrapper';
 
@@ -141,16 +170,17 @@ scrollToBottom();
       pre.parentElement.replaceChild(wrapper, pre);
       wrapper.appendChild(label);
       wrapper.appendChild(copyBtn);
-console.log('added copy button');
-
       wrapper.appendChild(pre);
     });
 
     conversationHistory.push({ role: "model", parts: [{ text: aiText }] });
-
     output.textContent = "";
     promptInput.value = "";
     imageInput.value = "";
+
+    if (sessionSelector.value) {
+      saveSession(sessionSelector.value, conversationHistory);
+    }
   } catch (e) {
     const errorDiv = document.createElement("div");
     errorDiv.className = "chat error";
@@ -168,6 +198,151 @@ function toBase64(file) {
     reader.onload = () => res(reader.result);
     reader.onerror = rej;
   });
+}
+
+function getTimeStamp() {
+  const now = new Date();
+  return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+document.getElementById("saveChatBtn").onclick = () => {
+  const blob = new Blob([chatHistory.innerText], { type: "text/plain" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "chat-history.txt";
+  a.click();
+};
+
+document.getElementById("exportBtn").onclick = () => {
+  const blob = new Blob([JSON.stringify(conversationHistory)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "chat-history.json";
+  a.click();
+};
+
+document.getElementById("importBtn").onclick = () => {
+  document.getElementById("importInput").click();
+};
+
+document.getElementById("importInput").onchange = (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const history = JSON.parse(reader.result);
+      chatHistory.innerHTML = "";
+      conversationHistory.length = 0;
+      history.forEach((msg) => {
+        const div = document.createElement("div");
+        div.className = "chat " + (msg.role === "user" ? "user" : "ai");
+        div.innerText = msg.parts[0].text;
+        chatHistory.appendChild(div);
+        conversationHistory.push(msg);
+      });
+    } catch (err) {
+      alert("Gagal memuat file JSON.");
+    }
+  };
+  reader.readAsText(file);
+};
+
+const sessionSelector = document.getElementById("sessionSelector");
+const sessionNameInput = document.getElementById("sessionName");
+const newSessionBtn = document.getElementById("newSessionBtn");
+
+function saveSession(name, history) {
+  localStorage.setItem(`session:${name}`, JSON.stringify(history));
+}
+
+function loadSession(name) {
+  chatHistory.innerHTML = "";
+  conversationHistory = [];
+  const saved = JSON.parse(localStorage.getItem(`session:${name}`) || "[]");
+  saved.forEach(msg => {
+    const div = document.createElement("div");
+    div.className = "chat " + (msg.role === "user" ? "user" : "ai");
+    div.innerText = msg.parts[0].text;
+    chatHistory.appendChild(div);
+  });
+  conversationHistory = saved;
+}
+
+function updateSessionList() {
+  sessionSelector.innerHTML = "";
+  Object.keys(localStorage)
+    .filter(k => k.startsWith("session:"))
+    .forEach(k => {
+      const name = k.split(":")[1];
+      const opt = document.createElement("option");
+      opt.value = name;
+      opt.textContent = name;
+      sessionSelector.appendChild(opt);
+    });
+}
+
+newSessionBtn.onclick = () => {
+  const name = sessionNameInput.value.trim();
+  if (name) {
+    saveSession(name, []);
+    updateSessionList();
+    sessionSelector.value = name;
+    loadSession(name);
+  }
+};
+
+const deleteSessionBtn = document.getElementById("deleteSessionBtn");
+deleteSessionBtn.onclick = () => {
+  const sessionToDelete = sessionSelector.value;
+  if (!sessionToDelete) return alert("Pilih sesi yang ingin dihapus.");
+  const confirmDelete = confirm(`Yakin ingin menghapus sesi "${sessionToDelete}"?`);
+  if (!confirmDelete) return;
+  localStorage.removeItem(`session:${sessionToDelete}`);
+  updateSessionList();
+  chatHistory.innerHTML = "";
+  conversationHistory = [];
+  sessionSelector.value = "";
+};
+
+sessionSelector.onchange = () => {
+  loadSession(sessionSelector.value);
+};
+updateSessionList();
+
+const promptTemplate = document.getElementById("promptTemplate");
+promptTemplate.onchange = () => {
+  if (promptTemplate.value) {
+    promptInput.value = promptTemplate.value;
+    promptInput.focus();
+  }
+};
+
+const micBtn = document.getElementById("micBtn");
+if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition = new SpeechRecognition();
+  recognition.lang = "id-ID";
+  recognition.interimResults = false;
+
+  micBtn.onclick = () => {
+    micBtn.textContent = "🎙️...";
+    recognition.start();
+  };
+
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    promptInput.value = transcript;
+    micBtn.textContent = "🎤";
+  };
+
+  recognition.onerror = () => {
+    micBtn.textContent = "🎤";
+  };
+} else {
+  micBtn.disabled = true;
+  micBtn.title = "Browser tidak mendukung speech recognition";
 }
 
 maybeShowApiKeyBanner(API_KEY);

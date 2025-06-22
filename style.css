@@ -581,3 +581,186 @@ body.dark a {
   border-radius: 6px;
   cursor: pointer;
 }
+
+.edit-btn {
+  margin-top: 10px;
+  background: #e0e0e0;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background: #d4d4d4;
+}
+
+.chat small {
+  display: block;
+  font-size: 11px;
+  color: #888;
+  margin-top: 6px;
+  text-align: right;
+}
+
+#saveChatBtn {
+  margin: 12px;
+  padding: 8px 16px;
+  background: #0077ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#saveChatBtn:hover {
+  background: #005fcc;
+}
+
+#settingsPanel {
+  margin: 10px auto;
+  max-width: var(--chat-max-width);
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+#settingsPanel summary {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#settingsPanel input {
+  margin-top: 6px;
+  width: 80px;
+  padding: 4px;
+}
+
+.speak-btn {
+  margin-top: 8px;
+  background: #444;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.speak-btn:hover {
+  background: #222;
+}
+
+body.theme-cyberpunk {
+  background: #0d0221;
+  color: #f0f;
+}
+
+body.theme-cyberpunk main,
+body.theme-cyberpunk .chat {
+  background: #1a0033;
+  border: 1px solid #f0f;
+  color: #f0f;
+}
+
+body.theme-minimal {
+  background: #ffffff;
+  color: #111;
+}
+
+body.theme-minimal .chat {
+  background: #f9f9f9;
+  border: none;
+  box-shadow: none;
+  color: #111;
+}
+
+#themeSelector {
+  margin-left: 16px;
+  padding: 4px 8px;
+  font-size: 14px;
+  border-radius: 6px;
+}
+
+body.theme-cyberpunk {
+  background: #0d0221;
+  color: #f0f;
+}
+
+body.theme-cyberpunk main,
+body.theme-cyberpunk .chat {
+  background: #1a0033;
+  border: 1px solid #f0f;
+  color: #f0f;
+}
+
+body.theme-minimal {
+  background: #ffffff;
+  color: #111;
+}
+
+body.theme-minimal .chat {
+  background: #f9f9f9;
+  border: none;
+  box-shadow: none;
+  color: #111;
+}
+
+#themeSelector {
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+}
+
+#session-controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 80px;
+  padding: 10px;
+}
+
+#sessionName, #sessionSelector {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+#promptTemplate {
+  margin: 10px auto;
+  display: block;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+#deleteSessionBtn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+#deleteSessionBtn:hover {
+  background-color: #d32f2f;
+}
+
+.edit-btn {
+  margin-top: 10px;
+  background: #e0e0e0;
+  color: #333;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.edit-btn:hover {
+  background: #ccc;
+}
