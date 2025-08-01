@@ -8,25 +8,52 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+  <style>
+    .history-sidebar {
+      position: fixed;
+      top: 0;
+      left: -280px;
+      width: 280px;
+      height: 100%;
+      background-color: #1e1e1e;
+      color: white;
+      z-index: 1001;
+      padding: 20px;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+      transition: left 0.3s ease;
+      overflow-y: auto;
+    }
+
+    .history-sidebar.active {
+      left: 0;
+    }
+
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .history-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .history-list li {
+      padding: 10px;
+      border-bottom: 1px solid #333;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <div class="desktop-layout">
-    <!-- Sidebar -->
-    <aside class="sidebar-left">
-      <div class="logo">🤖 Vynix AI</div>
-      <nav>
-        <ul>
-          <li>Chat</li>
-          <li>Prompt</li>
-          <li>Riwayat</li>
-        </ul>
-      </nav>
-    </aside>
-
     <section class="chat-section">
       <div id="app-container">
         <header class="app-header">
-          <div class="header-left">
+          <div class="header-left" style="cursor:pointer;">
             <h1>Vynix AI</h1>
           </div>
           <div class="header-right">
@@ -53,7 +80,7 @@
 
         <footer class="chat-footer">
           <form id="imageForm" class="prompt-form">
-           <button type="button" id="uploadBtn" class="icon-button" title="Lampirkan Gambar">
+            <button type="button" id="uploadBtn" class="icon-button" title="Lampirkan Gambar">
               <img src="https://img.icons8.com/?size=100&id=89415&format=png&color=ffffff" alt="Lampiran" style="width: 24px; height: 24px;" />
             </button>
             <input type="file" id="imageInput" accept="image/*" hidden />
@@ -69,28 +96,24 @@
         </footer>
       </div>
 
-      <div id="settingsPanel" class="settings-sidebar">
-        <div class="settings-header">
-          <strong>Pengaturan</strong>
-          <button id="closeSettingsBtn">❌️</button>
+      <div id="historySidebar" class="history-sidebar">
+        <div class="history-header">
+          <strong>Riwayat Chat</strong>
+          <button id="closeHistoryBtn">❌</button>
         </div>
+        <ul class="history-list">
+          <li>coming soon</li>
+          <li>coming soon</li>
+          <li>coming soon</li>
+        </ul>
+      </div>
+
+      <div id="settingsPanel" class="settings-sidebar">
         <div class="settings-content">
           <label>
             Max Token:
-            <input type="number" id="maxTokens" value="1000" min="10" max="2048" />
+            <input type="number" id="maxTokens" value="1000" min="10" max="5000" />
           </label>
-          <div class="session-controls">
-            <input type="text" id="sessionName" placeholder="Nama Sesi Baru" />
-            <button id="newSessionBtn">➕ Sesi Baru</button>
-            <select id="sessionSelector"></select>
-            <button id="deleteSessionBtn">🗑️ Hapus Sesi</button>
-          </div>
-          <div class="export-import-controls">
-            <button id="exportBtn">💾 Export JSON</button>
-            <input type="file" id="importInput" accept=".json" style="display:none;" />
-            <button id="importBtn">📂 Import JSON</button>
-            <button id="saveChatBtn">💾 Simpan Chat (TXT)</button>
-          </div>
         </div>
       </div>
     </section>
@@ -119,6 +142,48 @@
         settingsPanel.classList.remove("active");
       }
     });
+
+    const historySidebar = document.getElementById("historySidebar");
+    const closeHistoryBtn = document.getElementById("closeHistoryBtn");
+    const headerLeft = document.querySelector(".header-left");
+
+    headerLeft.addEventListener("click", () => {
+      historySidebar.classList.add("active");
+    });
+
+    closeHistoryBtn.addEventListener("click", () => {
+      historySidebar.classList.remove("active");
+    });
+
+    document.addEventListener("click", (e) => {
+      if (
+        !historySidebar.contains(e.target) &&
+        !headerLeft.contains(e.target)
+      ) {
+        historySidebar.classList.remove("active");
+      }
+    });
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener("touchstart", function (e) {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+
+    document.addEventListener("touchend", function (e) {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipeGesture();
+    });
+
+    function handleSwipeGesture() {
+      const threshold = 70;
+      if (touchEndX - touchStartX > threshold) {
+        historySidebar.classList.add("active");
+      } else if (touchStartX - touchEndX > threshold) {
+        historySidebar.classList.remove("active");
+      }
+    }
   </script>
 </body>
 </html>
