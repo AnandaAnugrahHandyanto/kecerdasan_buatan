@@ -154,9 +154,17 @@ const sendMessage = async () => {
     aiDiv.className = "chat ai fade-in";
 
     const contentDiv = document.createElement("div");
-    contentDiv.className = "ai-content";
-    contentDiv.innerHTML = md.render(aiText);
+    contentDiv.className = "ai-content typing-text";
     aiDiv.appendChild(contentDiv);
+
+    chatHistory.appendChild(aiDiv);
+    scrollToBottom();
+
+    typeTextSmoothly(contentDiv, aiText, 15, () => {
+    contentDiv.innerHTML = md.render(aiText);
+    hljs.highlightAll();
+    });
+
 
     const timeStamp = document.createElement("small");
     timeStamp.textContent = getTimeStamp();
@@ -359,7 +367,7 @@ if (themeSelector) {
   themeSelector.addEventListener("change", () => {
     applyTheme(themeSelector.value);
   });
-  const savedTheme = localStorage.getItem("selected-theme") || "light";
+  const savedTheme = localStorage.getItem("selected-theme") || "minimal";
   themeSelector.value = savedTheme;
   applyTheme(savedTheme);
 }
@@ -593,3 +601,24 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+function typeTextSmoothly(element, text, speed = 15, callback) {
+  let index = 0;
+  function typeChar() {
+    if (index < text.length) {
+      element.innerText += text.charAt(index);
+      index++;
+      setTimeout(typeChar, speed);
+    } else {
+      if (typeof callback === "function") callback();
+    }
+  }
+  typeChar();
+}
+
+const aiMessage = document.createElement("div");
+aiMessage.className = "chat ai";
+aiMessage.textContent = aiResponse;
+chatHistory.appendChild(aiMessage);
+
+chatHistory.appendChild(aiMessage);
+typeTextSmoothly(aiMessage, aiResponse);

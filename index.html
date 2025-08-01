@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vynix AI</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -11,83 +10,87 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 </head>
 <body>
-  <div id="app-container">
-    <header class="app-header">
-      <div class="header-left">
-        <h1>Vynix AI</h1>
-      </div>
-      <div class="theme-selector-wrapper">
-        <select id="themeSelector">
-          <option value="light">🌞 Default</option>
-          <option value="dark">🌚 Gelap</option>
-          <option value="cyberpunk">🟣 Cyberpunk</option>
-          <option value="minimal">🧼 Minimalis</option>
-        </select>
-        <button id="openSettingsBtn" class="settings-button">⚙️ Pengaturan</button>
-      </div>
-    </header>
+  <div class="desktop-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar-left">
+      <div class="logo">🤖 Vynix AI</div>
+      <nav>
+        <ul>
+          <li>Chat</li>
+          <li>Prompt</li>
+          <li>Riwayat</li>
+        </ul>
+      </nav>
+    </aside>
 
-    <main class="chat-main">
-      <div id="greeting-screen" class="active">
-        <h2>Vynix AI</h2>
-        <div class="suggestion-chips">
-          <button>Beri aku tips belajar</button>
-          <button>Beri aku nasihat</button>
-          <button>Jelaskan sesuatu</button>
+    <!-- Main Chat Area -->
+    <section class="chat-section">
+      <div id="app-container">
+        <header class="app-header">
+          <div class="header-left">
+            <h1>Vynix AI</h1>
+          </div>
+        </header>
+
+        <main class="chat-main">
+          <div id="greeting-screen" class="active">
+            <h2>Vynix AI</h2>
+            <div class="suggestion-chips">
+              <button>Beri aku tips belajar</button>
+              <button>Beri aku nasihat</button>
+              <button>Jelaskan sesuatu</button>
+            </div>
+          </div>
+
+          <div id="chat-screen">
+            <div id="chat-history"></div>
+          </div>
+        </main>
+
+        <footer class="chat-footer">
+          <form id="imageForm" class="prompt-form">
+           <button type="button" id="uploadBtn" class="icon-button" title="Lampirkan Gambar">
+              <img src="https://img.icons8.com/?size=100&id=89415&format=png&color=ffffff" alt="Lampiran" style="width: 24px; height: 24px;" />
+            </button>
+            <input type="file" id="imageInput" accept="image/*" hidden />
+            <input id="promptInput" name="prompt" placeholder="Tanyakan apa saja" type="text" required />
+            <button type="button" id="micBtn" class="icon-button" title="Mikrofon">
+              <img src="https://img.icons8.com/?size=100&id=sH9rvs5LTPf3&format=png&color=ffffff" alt="Mic" style="width: 24px; height: 24px;" />
+            </button>
+            <button type="submit" class="icon-button send-button" title="Kirim Pesan">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </button>
+          </form>
+          <div class="disclaimer">Vynix AI &copy; 2025</div>
+        </footer>
+      </div>
+
+      <div id="settingsPanel" class="settings-sidebar">
+        <div class="settings-header">
+          <strong>Pengaturan</strong>
+          <button id="closeSettingsBtn">❌️</button>
+        </div>
+        <div class="settings-content">
+          <label>
+            Max Token:
+            <input type="number" id="maxTokens" value="1000" min="10" max="2048" />
+          </label>
+          <div class="session-controls">
+            <input type="text" id="sessionName" placeholder="Nama Sesi Baru" />
+            <button id="newSessionBtn">➕ Sesi Baru</button>
+            <select id="sessionSelector"></select>
+            <button id="deleteSessionBtn">🗑️ Hapus Sesi</button>
+          </div>
+          <div class="export-import-controls">
+            <button id="exportBtn">💾 Export JSON</button>
+            <input type="file" id="importInput" accept=".json" style="display:none;" />
+            <button id="importBtn">📂 Import JSON</button>
+            <button id="saveChatBtn">💾 Simpan Chat (TXT)</button>
+          </div>
         </div>
       </div>
-
-      <div id="chat-screen">
-        <div id="chat-history"></div>
-      </div>
-    </main>
-
-    <footer class="chat-footer">
-      <select id="promptTemplate" class="prompt-template-select">
-        <option value="">-- Pilih Gaya Prompt --</option>
-        <option value="Tolong jelaskan seperti saya anak SD: ">🧒 Penjelasan Anak SD</option>
-        <option value="Buatkan puisi tentang: ">📝 Puisi</option>
-        <option value="Tuliskan sebagai developer note: ">💻 Catatan Developer</option>
-      </select>
-      <form id="imageForm" class="prompt-form">
-        <button type="button" id="uploadBtn" class="icon-button" title="Lampirkan Gambar">📎</button>
-        <input type="file" id="imageInput" accept="image/*" hidden />
-        <input id="promptInput" name="prompt" placeholder="Masukkan perintah" type="text" required />
-        <button type="button" id="micBtn" class="icon-button" title="Mikrofon">🎤</button>
-        <button type="submit" class="icon-button send-button" title="Kirim Pesan">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-        </button>
-      </form>
-      <div class="disclaimer">Vynix AI &copy; 2025</div>
-    </footer>
+    </section>
   </div>
-
-  <div id="settingsPanel" class="settings-sidebar">
-  <div class="settings-header">
-    <strong>Pengaturan</strong>
-    <button id="closeSettingsBtn">✖️</button>
-  </div>
-
-  <!-- ✅ Tambahkan kembali isi ini -->
-  <div class="settings-content">
-    <label>
-      Max Token:
-      <input type="number" id="maxTokens" value="1000" min="10" max="2048" />
-    </label>
-    <div class="session-controls">
-      <input type="text" id="sessionName" placeholder="Nama Sesi Baru" />
-      <button id="newSessionBtn">➕ Sesi Baru</button>
-      <select id="sessionSelector"></select>
-      <button id="deleteSessionBtn">🗑️ Hapus Sesi</button>
-    </div>
-    <div class="export-import-controls">
-      <button id="exportBtn">💾 Export JSON</button>
-      <input type="file" id="importInput" accept=".json" style="display:none;" />
-      <button id="importBtn">📂 Import JSON</button>
-      <button id="saveChatBtn">💾 Simpan Chat (TXT)</button>
-    </div>
-  </div>
-</div>
 
   <script type="module" src="main.js"></script>
   <script>
@@ -99,16 +102,16 @@
     const closeBtn = document.getElementById("closeSettingsBtn");
     const settingsPanel = document.getElementById("settingsPanel");
 
-    toggleBtn.addEventListener("click", () => {
+    toggleBtn?.addEventListener("click", () => {
       settingsPanel.classList.toggle("active");
     });
 
-    closeBtn.addEventListener("click", () => {
+    closeBtn?.addEventListener("click", () => {
       settingsPanel.classList.remove("active");
     });
 
     document.addEventListener("click", (e) => {
-      if (!settingsPanel.contains(e.target) && !toggleBtn.contains(e.target)) {
+      if (!settingsPanel.contains(e.target) && !toggleBtn?.contains(e.target)) {
         settingsPanel.classList.remove("active");
       }
     });
