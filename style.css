@@ -858,7 +858,6 @@ html, body {
   border-radius: 4px;
 }
 
-/* === Tampilan Persis Seperti Gambar Pertama === */
 body {
   background: #000;
   color: #fff;
@@ -867,7 +866,6 @@ body {
   overflow: hidden;
 }
 
-/* Container utama */
 #app-container {
   display: flex;
   flex-direction: column;
@@ -881,7 +879,6 @@ body {
   position: relative;
 }
 
-/* Header */
 .app-header {
   background: #121212;
   border-radius: 12px;
@@ -892,10 +889,9 @@ body {
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-  border: 1px solid rgba(255,255,255,0.05);
+  border: 1px solid rgba(249, 0, 0, 0.05);
 }
 
-/* Logo */
 .app-header h1 {
   font-size: 18px;
   font-weight: 600;
@@ -904,17 +900,17 @@ body {
   align-items: center;
   gap: 10px;
 }
+
 .app-header h1::before {
   content: '';
   display: inline-block;
-  background: url('logo.png') no-repeat center center;
+  background: url('.idx/2.png') no-repeat center center;
   background-size: cover;
   width: 32px;
   height: 32px;
   border-radius: 50%;
 }
 
-/* Theme dropdown dan button */
 .theme-selector-wrapper {
   display: flex;
   gap: 6px;
@@ -936,7 +932,6 @@ body {
   cursor: pointer;
 }
 
-/* Greeting screen */
 #greeting-screen.active {
   flex: 1;
   display: flex;
@@ -970,7 +965,6 @@ body {
   cursor: pointer;
 }
 
-/* Dropdown prompt */
 .prompt-template-select {
   background: #1a1a1a;
   color: #fff;
@@ -1137,7 +1131,6 @@ body {
   overflow: hidden;
 }
 
-/* Re-override app-container jika berada dalam desktop layout */
 .chat-section #app-container {
   max-width: 100%;
   height: 100%;
@@ -1159,7 +1152,7 @@ body {
 .chat {
   display: inline-block;
   max-width: 85%;
-  width: auto; /* <= ini penting */
+  width: auto;
   margin: 0;
   padding: 12px 18px;
   border-radius: 18px;
@@ -1168,25 +1161,21 @@ body {
   overflow-wrap: break-word;
 }
 
-/* Chat form & dropdown prompt align center */
 .prompt-form,
 .prompt-template-select {
   max-width: 700px;
   margin: 0 auto;
 }
 
-/* Gaya tombol sidebar saat aktif */
 .sidebar-left nav li.active {
   color: #fff;
   font-weight: bold;
 }
 
-/* Tambahan scroll untuk sidebar jika isi panjang */
 .sidebar-left {
   overflow-y: auto;
 }
 
-/* Responsif tetap aktif */
 @media (max-width: 1024px) {
   .desktop-layout {
     flex-direction: column;
@@ -1203,9 +1192,6 @@ body {
   }
 }
 
-/* ===== RESPONSIVE - SEMUA PERANGKAT ===== */
-
-/* Layar besar (Desktop > 1200px) */
 @media (min-width: 1200px) {
   .chat {
     max-width: 720px;
@@ -1215,7 +1201,6 @@ body {
   }
 }
 
-/* Layar sedang (Tablet / Laptop) */
 @media (max-width: 1199px) and (min-width: 768px) {
   .chat {
     max-width: 90%;
@@ -1235,7 +1220,6 @@ body {
   }
 }
 
-/* Layar kecil (HP Potrait) */
 @media (max-width: 767px) {
   .desktop-layout {
     flex-direction: column;
@@ -1296,7 +1280,6 @@ body {
   }
 }
 
-/* Sangat kecil (HP mini - 360px) */
 @media (max-width: 400px) {
   .prompt-form {
     gap: 6px;
@@ -1354,14 +1337,12 @@ body {
   min-width: 0;
 }
 
-/* Tombol icon lebih kecil */
 .icon-button {
   width: 36px;
   height: 36px;
   font-size: 18px;
 }
 
-/* Tombol kirim (send-button) lebih kecil dan bulat */
 .icon-button.send-button {
   background: #3b82f6;
   border-radius: 50%;
@@ -1373,5 +1354,118 @@ body {
 .icon-button.send-button svg {
   width: 20px;
   height: 20px;
+}
+
+@media (max-width: 767px) {
+  html, body {
+    overflow: hidden;
+    height: 100dvh;
+    width: 100vw;
+    touch-action: none;
+  }
+
+  #chat-history {
+    flex-grow: 1;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #greeting-screen,
+  #chat-screen,
+  #app-container {
+    max-height: 100dvh;
+    overflow: hidden;
+  }
+}
+
+.icon-button.refresh-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.icon-button.refresh-button img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  padding-top: 0;
+}
+
+@media (max-width: 767px) {
+  html, body {
+    overflow: hidden;
+    height: 100dvh;
+    width: 100vw;
+    touch-action: manipulation;
+  }
+
+  #chat-history {
+    flex-grow: 1;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .header-right {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .icon-button.refresh-button img {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.icon-button.refresh-button {
+  position: relative;
+  top: -1px;
+  align-self: center; 
+  margin-top: -80px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 6px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.icon-button.refresh-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.icon-button.refresh-button img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.refresh-button:hover {
+  background: #333;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
 }
 
