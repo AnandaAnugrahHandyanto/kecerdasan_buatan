@@ -251,9 +251,9 @@ const sendMessage = async () => {
     if (chatHistory.contains(typingDiv)) {
       chatHistory.removeChild(typingDiv);
     }
-    const errorDiv = document.createElement("div");
-    errorDiv.className = "chat error fade-in";
-    errorDiv.textContent = "Error: " + e.message;
+    // const errorDiv = document.createElement("div");
+    // errorDiv.className = "chat error fade-in";
+    // errorDiv.textContent = "Error: " + e.message;
     chatHistory.appendChild(errorDiv);
     scrollToBottom();
     console.error("Gemini API Error:", e);
@@ -622,3 +622,4 @@ chatHistory.appendChild(aiMessage);
 
 chatHistory.appendChild(aiMessage);
 typeTextSmoothly(aiMessage, aiResponse);
+
